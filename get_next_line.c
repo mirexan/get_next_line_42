@@ -6,12 +6,11 @@
 /*   By: mregada- <mregada-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:28:30 by mregada-          #+#    #+#             */
-/*   Updated: 2024/12/31 13:12:20 by mregada-         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:09:29 by mregada-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static char	*ft_free(char **str)
 {
@@ -23,51 +22,56 @@ static char	*ft_free(char **str)
 	return (NULL);
 }
 
-static char	*ft_get_line(char *next_line, char **bookmark)
+static char	*ft_get_line(char *nl, char **bookmark)
 {
 	size_t	len_line;
 	char	*extract_line;
 	char	*leftovers;
 
-	if (!next_line || !bookmark || !*bookmark)
+	if (!bookmark || !*bookmark || **bookmark == '\0')
 		return (ft_free(bookmark));
-	len_line = (next_line - *bookmark) + 1;
+	if (!nl)
+		len_line = ft_strlen(*bookmark);
+	else
+		len_line = (nl - *bookmark) + 1;
 	extract_line = ft_substr(*bookmark, 0, len_line);
-	if (!extract_line)
-		return (NULL);
-	leftovers = ft_strdup(next_line + 1);
+	if (!extract_line || !nl)
+		return (ft_free(bookmark));
+	leftovers = ft_strdup(nl + 1);
 	if (!leftovers)
-		return (ft_free(&extract_line));
+	{
+		ft_free(&extract_line);
+		return (ft_free(bookmark));
+	}
 	ft_free(bookmark);
 	*bookmark = leftovers;
 	return (extract_line);
 }
 
-static ssize_t	ft_read_concat(int fd, char **bookmark, char *buffer)
+static ssize_t	ft_rejoin(int fd, char **bookmark, char *buffer, char *nl)
 {
 	ssize_t	read_bytes;
 	char	*temp;
 
-	read_bytes = read(fd, buffer, BUFFER_SIZE);
-	if (read_bytes < 0)
-		return (-1);
-	if (read_bytes >= 0)
+	read_bytes = 1;
+	while (read_bytes != 0)
 	{
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes < 0)
+			return (-1);
 		buffer[read_bytes] = '\0';
-		if (!bookmark || !*bookmark)
+		if (!*bookmark)
 		{
 			*bookmark = ft_strdup("");
 			if (!*bookmark)
 				return (-1);
 		}
 		temp = ft_strjoin(*bookmark, buffer);
-		if (!temp)
-		{
-			ft_free(bookmark);
-			return (-1);
-		}
 		ft_free(bookmark);
 		*bookmark = temp;
+		nl = ft_strchr(*bookmark, '\n');
+		if (nl)
+			break ;
 	}
 	return (read_bytes);
 }
@@ -75,20 +79,15 @@ static ssize_t	ft_read_concat(int fd, char **bookmark, char *buffer)
 static char	*ft_read_nd_save(char **bookmark, int fd, char *buffer, char *line)
 {
 	ssize_t	read_bytes;
-	char	*next_line;
+	char	*nl;
 
-	next_line = NULL;
-	read_bytes = ft_read_concat(fd, bookmark, buffer);
-	if (read_bytes < 0 && (!*bookmark || **bookmark == '\0'))
+	nl = NULL;
+	read_bytes = ft_rejoin(fd, bookmark, buffer, nl);
+	if (read_bytes < 0)
 		return (ft_free(bookmark));
-	while (!next_line && read_bytes > 0)
-	{
-		next_line = ft_strchr(*bookmark, '\n');
-		if (!next_line)
-			read_bytes = ft_read_concat(fd, bookmark, buffer);
-	}
-	if (next_line)
-		line = ft_get_line(next_line, bookmark);
+	nl = ft_strchr(*bookmark, '\n');
+	if (nl)
+		line = ft_get_line(nl, bookmark);
 	else if (*bookmark && **bookmark)
 	{
 		line = ft_strdup(*bookmark);
@@ -104,23 +103,15 @@ char	*get_next_line(int fd)
 	static char	*bookmark;
 	char		*buffer;
 	char		*line;
-	
-	//printf("Empieza gnl : fd=%d\n", fd);
+
 	line = NULL;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, buffer, 0) < 0 || !buffer)
 	{
 		ft_free(&bookmark);
-		ft_free(&buffer);
-		ft_free(&line);
-		return (NULL);
+		return (ft_free(&buffer));
 	}
-	if (!bookmark)
-		bookmark = ft_strdup("");
 	line = ft_read_nd_save(&bookmark, fd, buffer, line);
-	if (!line && bookmark && *bookmark == '\0')
-		ft_free(&bookmark);
 	ft_free(&buffer);
-	//printf("Linea devuelta: %s\n", line);
 	return (line);
 }
