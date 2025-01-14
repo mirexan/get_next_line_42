@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mregada- <mregada-@student.42barcelon      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/14 17:22:05 by mregada-          #+#    #+#             */
-/*   Updated: 2024/12/31 12:52:31 by mregada-         ###   ########.fr       */
+/*   Created: 2025/01/14 19:28:06 by mregada-          #+#    #+#             */
+/*   Updated: 2025/01/14 19:29:26 by mregada-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -20,7 +20,7 @@
 # ifndef MAX_FD
 #  define MAX_FD 1024
 # endif
- 
+
 # include <stdlib.h>
 # include <stddef.h>
 # include <fcntl.h>

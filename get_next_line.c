@@ -30,10 +30,7 @@ static char	*ft_get_line(char *nl, char **bookmark)
 
 	if (!bookmark || !*bookmark || **bookmark == '\0')
 		return (ft_free(bookmark));
-	if (!nl)
-		len_line = ft_strlen(*bookmark);
-	else
-		len_line = (nl - *bookmark) + 1;
+	len_line = (nl - *bookmark) + 1;
 	extract_line = ft_substr(*bookmark, 0, len_line);
 	if (!extract_line || !nl)
 		return (ft_free(bookmark));
