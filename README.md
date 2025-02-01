@@ -20,7 +20,7 @@ ción get_next_line.
 
 <aside>
 
-**Las variables estáticas son variables que conservan su valor entre diferentes llamadas a una función o durante la vida del programa, dependiendo del contexto en el que se declaren.**
+> 💡 **Las variables estáticas son variables que conservan su valor entre diferentes llamadas a una función o durante la vida del programa, dependiendo del contexto en el que se declaren.**
 
 </aside>
 
@@ -52,11 +52,7 @@ de reiniciarse a 0 cada vez._*/
 ```
 ### FileDescriptor
 
-<aside>
-
-**FD :Es un número entero no negativo que se utiliza para acceder a archivos o recursos de entrada/salida (I/O).**
-
-</aside>
+> :bulb: **FD :Es un número entero no negativo que se utiliza para acceder a archivos o recursos de entrada/salida (I/O).**
 
 - **Asignación**: Cuando un proceso abre un archivo o crea un nuevo socket, el sistema operativo le asigna un file descriptor. Este descriptor se utiliza para referenciar el recurso abierto en futuras operaciones.
 - **Valores comunes**: Los tres primeros file descriptors que se asignan por defecto son:
@@ -72,7 +68,7 @@ de reiniciarse a 0 cada vez._*/
 
 ### Open
 
-> **Se utiliza para abrir archivos. Devuelve un valor de asignación al archivo abierto, es el file descriptor (fd).**
+> :bulb: **Se utiliza para abrir archivos. Devuelve un valor de asignación al archivo abierto, es el file descriptor (fd).**
 
 Libreria: `#include <fcntl.h>`
 
@@ -92,7 +88,7 @@ Libreria: `#include <fcntl.h>`
 - `mode`: (Opcional) Especifica los permisos del archivo si se crea (se usa con `O_CREAT`).
 
 
-**Pd: Requiere que se realice al final la función close.**
+**⚠️Pd: Requiere que se realice al final la función close.**
 
 ```c
 sintaxis:
@@ -101,7 +97,8 @@ int close(fd);
 
 ### Read
 
-> **La función read sirve para leer datos de un archivo abierto, devuelve los bytes leídos.**
+> 💡**La función read sirve para leer datos de un archivo abierto, devuelve los bytes leídos.**
+
 Libreria : `#include <unistd.h>`
 
 ```c
