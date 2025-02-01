@@ -17,6 +17,11 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# if BUFFER_SIZE > 1024
+#  undef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
 # ifndef MAX_FD
 #  define MAX_FD 1024
 # endif
