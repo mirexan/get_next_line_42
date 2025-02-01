@@ -30,7 +30,7 @@ Las variables estáticas son variables que conservan su valor entre diferentes l
 - **Uso común**: Se utilizan para mantener el estado entre llamadas a funciones o para datos que deben ser compartidos entre funciones en un archivo, pero no necesitan ser accesibles desde otros archivos.
 
 Una variable estática dentro de una función mantiene su valor entre llamadas a la función. Al contrario de las variables locales normales, que se crean y destruyen cada vez que la función se llama, las variables estáticas se inicializan solo una vez y persisten durante toda la ejecución del programa.
-Ejemplo:
+```Ejemplo:
 #include <stdio.h>
 
 void contador() {
@@ -48,4 +48,4 @@ int main() {
 /*_En este ejemplo, la variable count es una variable estática 
 dentro de la función contador. Su valor se incrementa en cada 
 llamada a la función y se conserva entre llamadas, en lugar 
-de reiniciarse a 0 cada vez._*/
+de reiniciarse a 0 cada vez._*/```
