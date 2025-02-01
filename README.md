@@ -16,7 +16,7 @@ n.
 ción get_next_line.
 * Añade todas las funciones de ayuda que necesites en el archivo get_next_line_utils.c
 ## Conceptos Clave
-## Variables estáticas
+### Variables estáticas
 
 <aside>
 🪶
@@ -30,7 +30,8 @@ Las variables estáticas son variables que conservan su valor entre diferentes l
 - **Uso común**: Se utilizan para mantener el estado entre llamadas a funciones o para datos que deben ser compartidos entre funciones en un archivo, pero no necesitan ser accesibles desde otros archivos.
 
 Una variable estática dentro de una función mantiene su valor entre llamadas a la función. Al contrario de las variables locales normales, que se crean y destruyen cada vez que la función se llama, las variables estáticas se inicializan solo una vez y persisten durante toda la ejecución del programa.
-```Ejemplo:
+```
+Ejemplo:
 #include <stdio.h>
 
 void contador() {
@@ -48,4 +49,25 @@ int main() {
 /*_En este ejemplo, la variable count es una variable estática 
 dentro de la función contador. Su valor se incrementa en cada 
 llamada a la función y se conserva entre llamadas, en lugar 
-de reiniciarse a 0 cada vez._*/```
+de reiniciarse a 0 cada vez._*/
+```
+### FileDescriptor
+
+<aside>
+🪶
+
+**FD** :Es un número entero no negativo que se utiliza para acceder a archivos o recursos de entrada/salida (I/O).
+
+</aside>
+
+- **Asignación**: Cuando un proceso abre un archivo o crea un nuevo socket, el sistema operativo le asigna un file descriptor. Este descriptor se utiliza para referenciar el recurso abierto en futuras operaciones.
+- **Valores comunes**: Los tres primeros file descriptors que se asignan por defecto son:
+    - `0`: stdin (entrada estándar)
+    - `1`: stdout (salida estándar)
+    - `2`: stderr (error estándar)
+- **Operaciones**: Los file descriptors se utilizan en varias llamadas al sistema para realizar operaciones como lectura (`read`), escritura (`write`), cierre (`close`), entre otras.
+- **Manejo de recursos**: Los file descriptors permiten que el sistema operativo gestione de manera eficiente los recursos de I/O, asegurándose de que no haya conflictos entre diferentes procesos que intentan acceder al mismo recurso.
+- **Herencia**: Cuando se crea un nuevo proceso (por ejemplo, mediante `fork`), los file descriptors abiertos en el proceso padre son heredados por el proceso hijo.
+    - **Consideraciones**:
+        - **Cierre de file descriptors**: Es importante que los procesos cierren los file descriptors que ya no necesitan, especialmente en el proceso hijo, para evitar fugas de recursos.
+        - **Redirección**: El proceso hijo puede redirigir sus file descriptors antes de ejecutar un nuevo programa con `exec()`. Esto permite que el nuevo programa utilice diferentes fuentes de entrada y salida sin necesidad de conocer los detalles de redirección.
