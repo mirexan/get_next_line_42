@@ -103,7 +103,7 @@ char	*get_next_line(int fd)
 
 	line = NULL;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, buffer, 0) < 0 || !buffer)
+	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, buffer, 0) < 0 || !buffer) // *** IMPORTANTE ESTUDIANTES 42*** La comprobación del read no le gusta a moulinette!
 	{
 		ft_free(&bookmark);
 		return (ft_free(&buffer));//4. si hay errores se vacian memorias y se devuelve NULL
