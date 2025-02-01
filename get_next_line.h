@@ -17,6 +17,11 @@
 #  define BUFFER_SIZE 42
 # endif
 
+# if BUFFER_SIZE > 1024 // limitación del buffer_size para mayor estabilidad en caso de buffer_size grande
+#  undef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
 # include <stdlib.h>
 # include <stddef.h>
 # include <fcntl.h>
