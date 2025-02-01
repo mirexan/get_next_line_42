@@ -19,9 +19,8 @@ ción get_next_line.
 ### Variables estáticas
 
 <aside>
-🪶
 
-Las variables estáticas son variables que conservan su valor entre diferentes llamadas a una función o durante la vida del programa, dependiendo del contexto en el que se declaren.
+**Las variables estáticas son variables que conservan su valor entre diferentes llamadas a una función o durante la vida del programa, dependiendo del contexto en el que se declaren.**
 
 </aside>
 
@@ -54,9 +53,8 @@ de reiniciarse a 0 cada vez._*/
 ### FileDescriptor
 
 <aside>
-🪶
 
-**FD** :Es un número entero no negativo que se utiliza para acceder a archivos o recursos de entrada/salida (I/O).
+**FD :Es un número entero no negativo que se utiliza para acceder a archivos o recursos de entrada/salida (I/O).**
 
 </aside>
 
@@ -71,3 +69,47 @@ de reiniciarse a 0 cada vez._*/
     - **Consideraciones**:
         - **Cierre de file descriptors**: Es importante que los procesos cierren los file descriptors que ya no necesitan, especialmente en el proceso hijo, para evitar fugas de recursos.
         - **Redirección**: El proceso hijo puede redirigir sus file descriptors antes de ejecutar un nuevo programa con `exec()`. Esto permite que el nuevo programa utilice diferentes fuentes de entrada y salida sin necesidad de conocer los detalles de redirección.
+
+### Open
+
+> **Se utiliza para abrir archivos. Devuelve un valor de asignación al archivo abierto, es el file descriptor (fd).**
+
+Libreria: `#include <fcntl.h>`
+
+```c
+ sintaxis:
+ int open(const char *ruta, int flags, mode_tmode);
+ manual: 
+ man 2 open 
+```
+
+- `ruta`: Es la ruta al archivo que se desea abrir, puede ser un argumento vector.
+- `flags`: Especifica el modo de apertura del archivo (por ejemplo, lectura, escritura, etc.). Algunos valores comunes son:
+    - `O_RDONLY`: Abre el archivo en modo solo lectura.
+    - `O_WRONLY`: Abre el archivo en modo solo escritura.
+    - `O_RDWR`: Abre el archivo en modo lectura y escritura.
+    - `O_CREAT`: Crea el archivo si no existe (requiere un tercer argumento `mode`).
+- `mode`: (Opcional) Especifica los permisos del archivo si se crea (se usa con `O_CREAT`).
+
+
+**Pd: Requiere que se realice al final la función close.**
+
+```c
+sintaxis:
+int close(fd);
+```
+
+### Read
+
+> **La función read sirve para leer datos de un archivo abierto, devuelve los bytes leídos.**
+Libreria : `#include <unistd.h>`
+
+```c
+sintaxis:
+ssize_t read(int fd, void *buf, size_t count);
+```
+
+- `fd`: Es el descriptor de archivo (devuelto por `open`).
+- `buf`: Es un puntero al buffer donde se almacenarán los datos leídos.
+- `count`: Es el número máximo de bytes a leer. (puede ser el buffer_size)
+
